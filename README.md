@@ -1,3 +1,5 @@
+# Analyzing the RTB disputes
+
 In BC and many provinces of Canada, a system exists for resolving
 disputes between tenants and landlords. Under authority of the
 Residential Tenancy Branch (RTB), tenants or landlords can enter what is
