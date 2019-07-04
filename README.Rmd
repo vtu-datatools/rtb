@@ -1,0 +1,138 @@
+---
+title: "Analyzing the RTB disputes"
+output: md_document
+---
+
+In BC and many provinces of Canada, a system exists for resolving disputes between tenants and landlords. Under authority of the Residential Tenancy Branch (RTB), tenants or landlords can enter what is effectively arbitration to resolve disputes. A few months ago we discovered that all the RTB disputes and their resolutions are put up online in public. We then went ahead and downloaded all the ones we could. This is what we have found so far.
+
+
+### Important Caveat
+
+Many issues between tenants and landlords never make it to the RTB process. Many people don't know it exists or how to use it. The process can be cumbersome to use and there are filing deadlines people may not know about. What we are seeing is only narrow slice of people in BC effected by these problems.
+
+### Summary of the data
+
+```{r include=FALSE}
+## Load libraries
+library(ggplot2)
+library(ggthemes)
+library(knitr)
+library(tidyr)
+library(dplyr)
+```
+
+
+```{r include=FALSE}
+codes <- read.csv("rtb_filing_codes.csv", header=T)
+codes$Filed.by <- NULL
+##kable(codes[1:10,])
+```
+
+```{r echo=FALSE, results='asis'}
+df <- read.csv("vtu_dataset.tsv", sep="\t")
+invisible(cat(sprintf("Total number of reports: %d\n", nrow(df))))
+```
+
+```{r echo=FALSE, results='asis'}
+propdf <- df[df$property.company != "",]
+invisible(cat(sprintf("Total number of reports which list a company: %d", nrow(propdf))))
+```
+
+
+```{r echo=FALSE, results='asis'}
+invisible(cat(sprintf("Percent of reports which list a company: %.2f%%", 100*nrow(propdf)/nrow(df))))
+```
+
+
+```{r echo=FALSE}
+#kable(df[1:5,])
+```
+
+The RTB system was introduced in 2007, but it's not until 2013 that people seem to start using it.
+
+```{r echo=FALSE}
+freqs <- as.data.frame(table(df$year))
+names(freqs) <- c("Year", "Reports")
+
+ggplot(freqs, aes(x=Year, y=Reports)) + geom_bar(stat="identity", fill="dodgerblue") + theme_hc() + scale_y_continuous(breaks = scales::pretty_breaks(freqs$Year, n = 15))
+```
+
+In particular, property company names are not listed until 2013
+
+```{r echo=FALSE}
+pfreqs <- as.data.frame(table(propdf$year))
+names(pfreqs) <- c("Year", "Reports")
+ggplot(pfreqs, aes(x=Year, y=Reports)) + geom_bar(stat="identity", fill="dodgerblue") + theme_hc() + scale_y_continuous(breaks = scales::pretty_breaks(pfreqs$Year, n = 15))
+```
+
+
+So what are the companies that keep coming up in disputes?
+
+```{r, echo=FALSE}
+## Clean company names
+df <- propdf
+df$property.company <- gsub('[[:punct:] ]+',' ',propdf$property.company)
+df$property.company <- toupper(df$property.company)
+df$property.company <- trimws(df$property.company)
+df$property.company <- gsub('LTD',' ', df$property.company)
+df$property.company <- gsub('INC',' ', df$property.company)
+```
+
+```{r, echo=FALSE}
+propfreqs <- as.data.frame(table(df$property.company))
+propfreqs <- propfreqs[order(propfreqs$Freq, decreasing=TRUE),]
+
+names(propfreqs) <- c("Company", "Frequency")
+ggplot(propfreqs[1:20,], aes(x=reorder(Company, Frequency), y=Frequency)) + geom_bar(stat="identity", fill="dodgerblue") + theme_hc() + coord_flip() + labs(x = "Company") + scale_y_continuous(breaks = scales::pretty_breaks(freqs$Year, n = 15))
+```
+
+```{r, echo=FALSE}
+invisible(cat(sprintf("Total number of unique companies: %d", length(unique(df$property.company)))))
+```
+
+
+## Dispute Codes
+
+Each case comes with a set of dispute codes to help categorize the report. A natural question is ask is what codes occur the most often?
+
+```{r echo=FALSE}
+## Perform some cleaning of the dispute codes
+df$dispute.codes <- gsub('[[:punct:] ]+',' ',df$dispute.codes)
+df$dispute.codes <- toupper(df$dispute.codes)
+df2 <- df %>% mutate(dispute.codes = strsplit(as.character(dispute.codes), "\\s+")) %>% unnest(dispute.codes)
+
+df$dispute.codes <- gsub('[[:punct:] ]+',' ',df$dispute.codes)
+df$dispute.codes <- toupper(df$dispute.codes)
+df <- df %>% mutate(dispute.codes = strsplit(as.character(dispute.codes), "\\s+")) %>% unnest(dispute.codes)
+df <- df[!(is.na(df$dispute.codes) | df$dispute.codes==""), ]
+```
+
+```{r echo=FALSE}
+codefreqs <- as.data.frame(table(df$dispute.codes))
+codefreqs <- codefreqs[order(codefreqs$Freq, decreasing=TRUE),]
+
+names(codefreqs) <- c("Code", "Frequency")
+ggplot(codefreqs[1:10,], aes(x=reorder(Code, Frequency), y=Frequency)) + geom_bar(stat="identity", fill="dodgerblue") + theme_hc() + coord_flip() + labs(x = "Code")
+```
+
+These codes can mean multiple things so side-by-side with their descriptions, we see that most disputes are recovering costs from repairs and pets.
+
+```{r echo=FALSE}
+codes <- read.csv("rtb_filing_codes.csv", header=T)
+codes$Filed.by <- NULL
+
+cf <- merge(codefreqs[1:10,], codes)
+cf <- cf[order(cf$Frequency, decreasing=TRUE),]
+kable(cf, row.names = FALSE)
+```
+
+
+## Further work that's needed
+
+### Keyword analysis
+
+This dataset includes free text that we have largely ignored. We can really still drill down and ask. How many of these disputes involve repairs as the main issue?
+
+### Tracking which party wins disputes
+
+While easy for a human being, it's hard for tools to automatically determine in whose favor was the judgement. It would be nice to find a while to automatically determine this and surface it.
