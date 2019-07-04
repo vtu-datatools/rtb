@@ -16,6 +16,10 @@ can be cumbersome to use and there are filing deadlines people may not
 know about. What we are seeing is only narrow slice of people in BC
 effected by these problems.
 
+Also many landlords do business under different names. I don’t have
+access to this information so it is possible that some of the worst
+offenders aren’t shown for that simple reason.
+
 ### Summary of the data
 
 Total number of reports: 124146
@@ -27,17 +31,17 @@ Percent of reports which list a company: 20.53%
 The RTB system was introduced in 2007, but it’s not until 2013 that
 people seem to start using it.
 
-![](rtb_note_files/figure-markdown_strict/unnamed-chunk-7-1.png)
+![](rtb_note_files/figure-markdown_github/unnamed-chunk-7-1.png)
 
 In particular, property company names are not listed until 2013
 
-![](rtb_note_files/figure-markdown_strict/unnamed-chunk-8-1.png)
+![](rtb_note_files/figure-markdown_github/unnamed-chunk-8-1.png)
 
 So what are the companies that keep coming up in disputes?
 
-![](rtb_note_files/figure-markdown_strict/unnamed-chunk-10-1.png)
+![](rtb_note_files/figure-markdown_github/unnamed-chunk-10-1.png)
 
-    ## Total number of unique companies: 9046
+Total number of unique companies: 8481
 
 Dispute Codes
 -------------
@@ -45,144 +49,34 @@ Dispute Codes
 Each case comes with a set of dispute codes to help categorize the
 report. A natural question is ask is what codes occur the most often?
 
-![](rtb_note_files/figure-markdown_strict/unnamed-chunk-13-1.png)
+![](rtb_note_files/figure-markdown_github/unnamed-chunk-13-1.png)
 
 These codes can mean multiple things so side-by-side with their
 descriptions, we see that most disputes are recovering costs from
 repairs and pets.
 
-<table>
-<thead>
-<tr class="header">
-<th style="text-align: left;">Code</th>
-<th style="text-align: right;">Frequency</th>
-<th style="text-align: left;">Description</th>
-<th style="text-align: left;">Category</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">FF</td>
-<td style="text-align: right;">11251</td>
-<td style="text-align: left;">Recover filing fee from the other party</td>
-<td style="text-align: left;">Application Process</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">MNR</td>
-<td style="text-align: right;">9037</td>
-<td style="text-align: left;">For unpaid rent or utilities</td>
-<td style="text-align: left;">Money or Monetary Orders</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">MNR</td>
-<td style="text-align: right;">9037</td>
-<td style="text-align: left;">Monetary order for unpaid rent or utilities</td>
-<td style="text-align: left;">Landlord filed for dispute resolution</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">MNR</td>
-<td style="text-align: right;">9037</td>
-<td style="text-align: left;">Recover cost of emergency repairs</td>
-<td style="text-align: left;">Repairs or the Condition of the Rental Unit</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">MNR</td>
-<td style="text-align: right;">9037</td>
-<td style="text-align: left;">Recover cost of emergency repairs</td>
-<td style="text-align: left;">Money or Monetary Orders</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">OPR</td>
-<td style="text-align: right;">7382</td>
-<td style="text-align: left;">Tenant has not paid the rent or utilities</td>
-<td style="text-align: left;">End of Tenancy Notices</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">OPR</td>
-<td style="text-align: right;">7382</td>
-<td style="text-align: left;">Tenant has not paid rent or utilities</td>
-<td style="text-align: left;">Landlord filed for dispute resolution</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">MNSD</td>
-<td style="text-align: right;">6680</td>
-<td style="text-align: left;">Keep all or part of pet damage deposit or security deposit</td>
-<td style="text-align: left;">Security or Pet Deposit</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">MNSD</td>
-<td style="text-align: right;">6680</td>
-<td style="text-align: left;">To keep all or part of pet damage deposit or security deposit</td>
-<td style="text-align: left;">Money or Monetary Orders</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">MNSD</td>
-<td style="text-align: right;">6680</td>
-<td style="text-align: left;">Return of all part of pet damage deposit or security deposit</td>
-<td style="text-align: left;">Money or Monetary Orders</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">MNSD</td>
-<td style="text-align: right;">6680</td>
-<td style="text-align: left;">Return pet damage deposit or security deposit</td>
-<td style="text-align: left;">Security or Pet Deposit</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">MNDC</td>
-<td style="text-align: right;">5890</td>
-<td style="text-align: left;">Owed or compensation for damage or loss under the Act, regulation or tenancy agreement</td>
-<td style="text-align: left;">Money or Monetary Orders</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">MNDC</td>
-<td style="text-align: right;">5890</td>
-<td style="text-align: left;">Owed or compensation for damage or loss under the Act, regulation or tenancy agreement</td>
-<td style="text-align: left;">Money or Monetary Orders</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">MNDC</td>
-<td style="text-align: right;">5890</td>
-<td style="text-align: left;">Compensation for damage or loss under the Act, regulation or tenancy agreement</td>
-<td style="text-align: left;">Repairs or the Condition of the Rental Unit</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">CNC</td>
-<td style="text-align: right;">3342</td>
-<td style="text-align: left;">Cause</td>
-<td style="text-align: left;">End of Tenancy Notices</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">MND</td>
-<td style="text-align: right;">2323</td>
-<td style="text-align: left;">Recover cost of damage to the unit, site or property</td>
-<td style="text-align: left;">Repairs or the Condition of the Rental Unit</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">MND</td>
-<td style="text-align: right;">2323</td>
-<td style="text-align: left;">For damage to the unit, site or property</td>
-<td style="text-align: left;">Money or Monetary Orders</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">CNR</td>
-<td style="text-align: right;">1860</td>
-<td style="text-align: left;">Unpaid rent</td>
-<td style="text-align: left;">End of Tenancy Notices</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">CNR</td>
-<td style="text-align: right;">1860</td>
-<td style="text-align: left;">Cancel a notice to end tenancy relating to unpaid rent</td>
-<td style="text-align: left;">Tenant filed for dispute resolution</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">OLC</td>
-<td style="text-align: right;">1702</td>
-<td style="text-align: left;">Order to require a party to comply with the Act, regulation or tenancy agreement</td>
-<td style="text-align: left;">Miscellaneous</td>
-</tr>
-</tbody>
-</table>
+| Code |  Frequency| Description                                                                            | Category                                    |
+|:-----|----------:|:---------------------------------------------------------------------------------------|:--------------------------------------------|
+| FF   |      11251| Recover filing fee from the other party                                                | Application Process                         |
+| MNR  |       9037| For unpaid rent or utilities                                                           | Money or Monetary Orders                    |
+| MNR  |       9037| Monetary order for unpaid rent or utilities                                            | Landlord filed for dispute resolution       |
+| MNR  |       9037| Recover cost of emergency repairs                                                      | Repairs or the Condition of the Rental Unit |
+| MNR  |       9037| Recover cost of emergency repairs                                                      | Money or Monetary Orders                    |
+| OPR  |       7382| Tenant has not paid the rent or utilities                                              | End of Tenancy Notices                      |
+| OPR  |       7382| Tenant has not paid rent or utilities                                                  | Landlord filed for dispute resolution       |
+| MNSD |       6680| Keep all or part of pet damage deposit or security deposit                             | Security or Pet Deposit                     |
+| MNSD |       6680| To keep all or part of pet damage deposit or security deposit                          | Money or Monetary Orders                    |
+| MNSD |       6680| Return of all part of pet damage deposit or security deposit                           | Money or Monetary Orders                    |
+| MNSD |       6680| Return pet damage deposit or security deposit                                          | Security or Pet Deposit                     |
+| MNDC |       5890| Owed or compensation for damage or loss under the Act, regulation or tenancy agreement | Money or Monetary Orders                    |
+| MNDC |       5890| Owed or compensation for damage or loss under the Act, regulation or tenancy agreement | Money or Monetary Orders                    |
+| MNDC |       5890| Compensation for damage or loss under the Act, regulation or tenancy agreement         | Repairs or the Condition of the Rental Unit |
+| CNC  |       3342| Cause                                                                                  | End of Tenancy Notices                      |
+| MND  |       2323| Recover cost of damage to the unit, site or property                                   | Repairs or the Condition of the Rental Unit |
+| MND  |       2323| For damage to the unit, site or property                                               | Money or Monetary Orders                    |
+| CNR  |       1860| Unpaid rent                                                                            | End of Tenancy Notices                      |
+| CNR  |       1860| Cancel a notice to end tenancy relating to unpaid rent                                 | Tenant filed for dispute resolution         |
+| OLC  |       1702| Order to require a party to comply with the Act, regulation or tenancy agreement       | Miscellaneous                               |
 
 Further work that’s needed
 --------------------------

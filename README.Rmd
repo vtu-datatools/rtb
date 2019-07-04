@@ -1,6 +1,8 @@
 ---
 title: "Analyzing the RTB disputes"
-output: md_document
+output:
+  md_document:
+    variant: markdown_github
 ---
 
 In BC and many provinces of Canada, a system exists for resolving disputes between tenants and landlords. Under authority of the Residential Tenancy Branch (RTB), tenants or landlords can enter what is effectively arbitration to resolve disputes. A few months ago we discovered that all the RTB disputes and their resolutions are put up online in public. We then went ahead and downloaded all the ones we could. This is what we have found so far.
@@ -9,6 +11,8 @@ In BC and many provinces of Canada, a system exists for resolving disputes betwe
 ### Important Caveat
 
 Many issues between tenants and landlords never make it to the RTB process. Many people don't know it exists or how to use it. The process can be cumbersome to use and there are filing deadlines people may not know about. What we are seeing is only narrow slice of people in BC effected by these problems.
+
+Also many landlords do business under different names. I don't have access to this information so it is possible that some of the worst offenders aren't shown for that simple reason.
 
 ### Summary of the data
 
@@ -73,9 +77,14 @@ So what are the companies that keep coming up in disputes?
 df <- propdf
 df$property.company <- gsub('[[:punct:] ]+',' ',propdf$property.company)
 df$property.company <- toupper(df$property.company)
+df$property.company <- gsub('LTD','', df$property.company)
+df$property.company <- gsub('INC','', df$property.company)
+df$property.company <- gsub('HOLDINGS','', df$property.company)
+df$property.company <- gsub('GROUP','', df$property.company)
+df$property.company <- gsub('REALTY','', df$property.company)
+df$property.company <- gsub('LP','', df$property.company)
+df$property.company <- gsub('LIMITED PARTNERSHIP','', df$property.company)
 df$property.company <- trimws(df$property.company)
-df$property.company <- gsub('LTD',' ', df$property.company)
-df$property.company <- gsub('INC',' ', df$property.company)
 ```
 
 ```{r, echo=FALSE}
@@ -86,7 +95,7 @@ names(propfreqs) <- c("Company", "Frequency")
 ggplot(propfreqs[1:20,], aes(x=reorder(Company, Frequency), y=Frequency)) + geom_bar(stat="identity", fill="dodgerblue") + theme_hc() + coord_flip() + labs(x = "Company") + scale_y_continuous(breaks = scales::pretty_breaks(freqs$Year, n = 15))
 ```
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, results='asis'}
 invisible(cat(sprintf("Total number of unique companies: %d", length(unique(df$property.company)))))
 ```
 
